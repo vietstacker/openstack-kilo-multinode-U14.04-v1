@@ -10,6 +10,22 @@ get_id () {
     echo `$@ | awk '/ id / { print $4 }'`
 }
 
+
+# openstack service create --type identity --description "OpenStack Identity" keystone
+# openstack endpoint create \
+# --publicurl http://$CON_MGNT_IP:5000/v2.0 \
+# --internalurl http://$CON_MGNT_IP:5000/v2.0 \
+# --adminurl http://$CON_MGNT_IP:35357/v2.0 \
+# --region regionOne \
+# identity
+
+
+# openstack project create --description "Admin Project" admin
+# openstack user create --name=admin  --pass=Welcome123 --email=congtt@teststack.com
+
+#################
+
+
 echo "########## Begin configuring tenants, users and roles in Keystone ##########"
 # Tenants
 ADMIN_TENANT=$(get_id keystone tenant-create --name=$ADMIN_TENANT_NAME)

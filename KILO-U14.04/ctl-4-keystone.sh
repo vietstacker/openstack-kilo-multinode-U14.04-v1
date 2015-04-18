@@ -83,9 +83,9 @@ echo "##### Remove keystone default db #####"
 rm  /var/lib/keystone/keystone.db
 
 echo "##### Restarting keystone service #####"
-service keystone restart
+#service keystone restart
 sleep 3
-service keystone restart
+# service keystone restart
 
 echo "##### Syncing keystone DB #####"
 sleep 3
@@ -96,7 +96,7 @@ su -s /bin/sh -c "keystone-manage db_sync" keystone
 
 # Cau hinh Apache 
 echo "##### Config apache #####"
-sed -e '\/#ServerRoot \"\/etc\/apache2\"/a ServerName controller' /etc/apache2/apache2.conf
+sed -i '\/#ServerRoot \"\/etc\/apache2\"/a ServerName controller' /etc/apache2/apache2.conf
 
 wget -O /etc/apache2/sites-available/wsgi-keystone.conf \
 https://raw.githubusercontent.com/tothanhcong/openstack-kilo-multinode-U14.04-v1/master/KILO-U14.04/wsgi-keystone.conf
