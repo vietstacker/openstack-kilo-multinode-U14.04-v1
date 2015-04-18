@@ -18,13 +18,17 @@ $NET_MGNT_IP     network
 EOF
 
 # Update repos
-apt-get install ubuntu-cloud-keyring -y
-sudo add-apt-repository cloud-archive:kilo
+#apt-get install ubuntu-cloud-keyring -y
+#sudo add-apt-repository cloud-archive:kilo
+echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/kilo main" \
+    | sudo tee /etc/apt/sources.list.d/cloud-archive.list
+sudo apt-get -y install ubuntu-cloud-keyring
+
 
 
 sleep 5
 echo "UPDATE PACKAGE FOR JUNO"
-apt-get -y update && apt-get -y dist-upgrade
+apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade
 
 echo "Install and config NTP"
 sleep 3 
