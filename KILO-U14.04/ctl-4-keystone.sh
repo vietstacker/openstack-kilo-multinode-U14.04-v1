@@ -98,3 +98,22 @@ su -s /bin/sh -c "keystone-manage db_sync" keystone
 echo "##### Config apache #####"
 sed -e '\/#ServerRoot \"\/etc\/apache2\"/a ServerName controller' /etc/apache2/apache2.conf
 
+wget -O /etc/apache2/sites-available/wsgi-keystone.conf \
+https://raw.githubusercontent.com/tothanhcong/openstack-kilo-multinode-U14.04-v1/master/KILO-U14.04/wsgi-keystone.conf
+
+rm /etc/apache2/sites-enabled/000-default.conf
+ln -s /etc/apache2/sites-available/wsgi-keystone.conf /etc/apache2/sites-enabled
+mkdir -p /var/www/cgi-bin/keystone
+curl https://raw.githubusercontent.com/openstack/keystone/master/httpd/keystone.py \
+> /var/www/cgi-bin/keystone/main
+
+curl https://raw.githubusercontent.com/openstack/keystone/master/httpd/keystone.py \
+> /var/www/cgi-bin/keystone/admin
+
+chown -R keystone:keystone /var/www/cgi-bin/keystone
+chmod 755 /var/www/cgi-bin/keystone/*
+
+service apache2 restart
+
+echo "##### Finish setup and config Keystone and Apache for Keysonte !! #####"
+
