@@ -17,7 +17,18 @@ rm $controlnova
 touch $controlnova
 cat << EOF >> $controlnova
 [DEFAULT]
-verbose = True
+rpc_backend = rabbit
+auth_strategy = keystone
+
+my_ip = $CON_MGNT_IP
+
+vncserver_listen = $CON_MGNT_IP
+vncserver_proxyclient_address = $CON_MGNT_IP
+
+network_api_class = nova.network.neutronv2.api.API
+security_group_api = neutron
+linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 dhcpbridge_flagfile=/etc/nova/nova.conf
 dhcpbridge=/usr/bin/nova-dhcpbridge
@@ -31,22 +42,29 @@ ec2_private_dns_show_ip=True
 api_paste_config=/etc/nova/api-paste.ini
 enabled_apis=ec2,osapi_compute,metadata
 
-# Register with RabbitMQ
-rpc_backend = rabbit
+[oslo_messaging_rabbit]
 rabbit_host = $CON_MGNT_IP
+rabbit_userid = openstack
 rabbit_password = $RABBIT_PASS
 
-auth_strategy = keystone
+[database]
+connection = mysql://nova:$NOVA_DBPASS@$CON_MGNT_IP/nova
 
-my_ip = $CON_MGNT_IP
+[keystone_authtoken]
+auth_uri = http://$CON_MGNT_IP:5000
+auth_url = http://$CON_MGNT_IP:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = nova
+password = $NOVA_PASS
 
-vncserver_listen = $CON_MGNT_IP
-vncserver_proxyclient_address = $CON_MGNT_IP
+[glance]
+host = $CON_MGNT_IP
 
-network_api_class = nova.network.neutronv2.api.API
-security_group_api = neutron
-linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
-firewall_driver = nova.virt.firewall.NoopFirewallDriver
+[oslo_concurrency]
+lock_path = /var/lock/nova
 
 [neutron]
 url = http://$CON_MGNT_IP:9696
@@ -57,22 +75,6 @@ admin_username = neutron
 admin_password = $NEUTRON_PASS
 service_metadata_proxy = True
 metadata_proxy_shared_secret = $METADATA_SECRET
-
-
-[glance]
-host = $CON_MGNT_IP
-
-
-
-[database]
-connection = mysql://nova:$NOVA_DBPASS@$CON_MGNT_IP/nova
-
-[keystone_authtoken]
-auth_uri = http://$CON_MGNT_IP:5000/v2.0
-identity_uri = http://$CON_MGNT_IP:35357
-admin_tenant_name = service
-admin_user = nova
-admin_password = $NOVA_PASS
 
 EOF
 
