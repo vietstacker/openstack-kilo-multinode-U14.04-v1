@@ -4,14 +4,17 @@
 source config.cfg
 #Update Ubuntu
 apt-get -y install ubuntu-cloud-keyring
-echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
-"trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list
+echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/kilo main" \
+    | sudo tee /etc/apt/sources.list.d/cloud-archive.list
 
 apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y
 
 echo "########## Install and Config OpenvSwitch ##########"
-apt-get install -y openvswitch-controller openvswitch-switch openvswitch-datapath-dkms
+apt-get install -y openvswitch-switch 
 
+apt-get install -y neutron-plugin-ml2 neutron-plugin-openvswitch-agent \
+  neutron-l3-agent neutron-dhcp-agent neutron-metadata-agent neutron-plugin-openvswitch neutron-common
+  
 echo "############ Install and Config NTP ############ "
 sleep 7 
 
