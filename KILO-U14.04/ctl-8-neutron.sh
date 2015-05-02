@@ -23,48 +23,63 @@ rm $controlneutron
 touch $controlneutron
 cat << EOF >> $controlneutron
 [DEFAULT]
+[DEFAULT]
 verbose = True
-lock_path = \$state_path/lock
+
+rpc_backend = rabbit
+auth_strategy = keystone
 
 core_plugin = ml2
 service_plugins = router
 allow_overlapping_ips = True
 
-rpc_backend = rabbit
-rabbit_host = $CON_MGNT_IP
-rabbit_password = $RABBIT_PASS
-
-auth_strategy = keystone
-
 notify_nova_on_port_status_changes = True
 notify_nova_on_port_data_changes = True
 nova_url = http://$CON_MGNT_IP:8774/v2
-nova_admin_auth_url = http://$CON_MGNT_IP:35357/v2.0
-nova_region_name = regionOne
-nova_admin_username = nova
-nova_admin_tenant_id = $SERVICE_TENANT_ID
-nova_admin_password = $NOVA_PASS
+
 
 [matchmaker_redis]
 [matchmaker_ring]
-
 [quotas]
 [agent]
 root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
 
 [keystone_authtoken]
-auth_uri = http://$CON_MGNT_IP:5000/v2.0
-identity_uri = http://$CON_MGNT_IP:35357
-admin_tenant_name = service
-admin_user = neutron
-admin_password = $NEUTRON_PASS
+auth_uri = http://$CON_MGNT_IP:5000
+auth_url = http://$CON_MGNT_IP:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = neutron
+password = $NEUTRON_PASS
+
+
 
 [database]
 connection = mysql://neutron:$NEUTRON_DBPASS@$CON_MGNT_IP/neutron
 
-[service_providers]
-service_provider=LOADBALANCER:Haproxy:neutron.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
-service_provider=VPN:openswan:neutron.services.vpn.service_drivers.ipsec.IPsecVPNDriver:default
+
+[nova]
+auth_url = http://$CON_MGNT_IP:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+region_name = RegionOne
+project_name = service
+username = nova
+password = $NOVA_PASS
+
+[oslo_concurrency]
+lock_path = $state_path/lock
+[oslo_policy]
+[oslo_messaging_amqp]
+[oslo_messaging_qpid]
+
+[oslo_messaging_rabbit]
+rabbit_host = $CON_MGNT_IP
+rabbit_userid = openstack
+rabbit_password = RABBIT_PASS
 
 EOF
 
