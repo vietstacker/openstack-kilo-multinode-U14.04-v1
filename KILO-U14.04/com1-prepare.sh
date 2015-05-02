@@ -142,7 +142,8 @@ echo "############ Installing neutron agent ############"
 sleep 5
 ########
 # Install neutron agent
-apt-get install neutron-common neutron-plugin-ml2 neutron-plugin-openvswitch-agent openvswitch-datapath-dkms -y
+# apt-get -y install neutron-common neutron-plugin-ml2 neutron-plugin-openvswitch-agent openvswitch-datapath-dkms 
+
 
 ##############################
 echo "############ Configuring neutron.conf ############"
