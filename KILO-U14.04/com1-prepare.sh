@@ -54,7 +54,32 @@ test -f $filenova.orig || cp $filenova $filenova.orig
 #Chen noi dung file /etc/nova/nova.conf vao 
 cat << EOF > $filenova
 [DEFAULT]
-verbose = True
+rpc_backend = rabbit
+auth_strategy = keystone
+
+
+my_ip = my_ip = $COM1_MGNT_IP
+vnc_enabled = True
+vncserver_listen = 0.0.0.0
+vncserver_proxyclient_address = $COM1_MGNT_IP
+novncproxy_base_url = http://$CON_EXT_IP:6080/vnc_auto.html
+
+
+# Cho phep thay doi kich thuoc may ao
+allow_resize_to_same_host=True
+scheduler_default_filters=AllHostsFilter
+
+# Cho phep chen password khi khoi tao
+libvirt_inject_password = True
+enable_instance_password = True
+libvirt_inject_key = true
+libvirt_inject_partition = -1
+
+network_api_class = nova.network.neutronv2.api.API
+security_group_api = neutron
+linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+
 
 dhcpbridge_flagfile=/etc/nova/nova.conf
 dhcpbridge=/usr/bin/nova-dhcpbridge
@@ -68,36 +93,15 @@ ec2_private_dns_show_ip=True
 api_paste_config=/etc/nova/api-paste.ini
 enabled_apis=ec2,osapi_compute,metadata
 
-rpc_backend = rabbit
+[oslo_messaging_rabbit]
 rabbit_host = $CON_MGNT_IP
+rabbit_userid = openstack
 rabbit_password = $RABBIT_PASS
 
-auth_strategy = keystone
 
-my_ip = $COM1_MGNT_IP
+[oslo_concurrency]
+lock_path = /var/lock/nova
 
-vnc_enabled = True
-vncserver_listen = 0.0.0.0
-vncserver_proxyclient_address = $COM1_MGNT_IP
-novncproxy_base_url = http://$CON_EXT_IP:6080/vnc_auto.html
-
-network_api_class = nova.network.neutronv2.api.API
-security_group_api = neutron
-linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
-firewall_driver = nova.virt.firewall.NoopFirewallDriver
-
-# Cho phep thay doi kich thuoc may ao
-allow_resize_to_same_host=True
-scheduler_default_filters=AllHostsFilter
-
-# Cho phep chen password khi khoi tao
-libvirt_inject_password = True
-enable_instance_password = True
-libvirt_inject_key = true
-libvirt_inject_partition = -1
-
-[glance]
-host = $CON_MGNT_IP
 
 [neutron]
 url = http://$CON_MGNT_IP:9696
@@ -108,11 +112,18 @@ admin_username = neutron
 admin_password = $NEUTRON_PASS
 
 [keystone_authtoken]
-auth_uri = http://$CON_MGNT_IP:5000/v2.0
-identity_uri = http://$CON_MGNT_IP:35357
-admin_tenant_name = service
-admin_user = nova
-admin_password = $NOVA_PASS
+auth_uri = http://$CON_MGNT_IP:5000
+auth_url = http://$CON_MGNT_IP:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = nova
+password = $NOVA_PASS
+
+[glance]
+host = $CON_MGNT_IP
+
 EOF
 
 # Remove default nova db
@@ -144,19 +155,14 @@ rm $comfileneutron
  
 cat << EOF > $comfileneutron
 [DEFAULT]
-verbose = True
-lock_path = \$state_path/lock
+
+rpc_backend = rabbit
+auth_strategy = keystone
 
 core_plugin = ml2
 service_plugins = router
 allow_overlapping_ips = True
-
-rpc_backend = rabbit
-rabbit_host = $CON_MGNT_IP
-rabbit_password = $RABBIT_PASS
-
-auth_strategy = keystone
-
+verbose = True
 
 [matchmaker_redis]
 [matchmaker_ring]
@@ -165,17 +171,29 @@ auth_strategy = keystone
 root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
 
 [keystone_authtoken]
-auth_uri = http://$CON_MGNT_IP:5000/v2.0
-identity_uri = http://$CON_MGNT_IP:35357
-admin_tenant_name = service
-admin_user = neutron
-admin_password = $NEUTRON_PASS
+auth_uri = http://$CON_MGNT_IP:5000
+auth_url = http://$CON_MGNT_IP:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = neutron
+password = $NEUTRON_PASS
 
 [database]
-connection = sqlite:////var/lib/neutron/neutron.sqlite
-[service_providers]
-service_provider=LOADBALANCER:Haproxy:neutron.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
-service_provider=VPN:openswan:neutron.services.vpn.service_drivers.ipsec.IPsecVPNDriver:default
+# connection = sqlite:////var/lib/neutron/neutron.sqlite
+[nova]
+[oslo_concurrency]
+lock_path = \$state_path/lock
+[oslo_policy]
+[oslo_messaging_amqp]
+[oslo_messaging_qpid]
+
+[oslo_messaging_rabbit]
+rabbit_host = $CON_MGNT_IP
+rabbit_userid = openstack
+rabbit_password = $RABBIT_PASS
+
 EOF
 #
 
