@@ -11,7 +11,7 @@ touch $iphost
 cat << EOF >> $iphost
 127.0.0.1       localhost
 127.0.1.1		network
-$CON_MGNT_IP    controller
+$CON_MGNT_IP    $CON_MGNT_IP
 $COM1_MGNT_IP  	compute1
 $COM2_MGNT_IP  	compute2
 $NET_MGNT_IP   	network
@@ -43,19 +43,14 @@ touch $netneutron
 
 cat << EOF >> $netneutron
 [DEFAULT]
+rpc_backend = rabbit
+auth_strategy = keystone
 verbose = True
-lock_path = \$state_path/lock
+
 
 core_plugin = ml2
 service_plugins = router
 allow_overlapping_ips = True
-
-rpc_backend = rabbit
-rabbit_host = $CON_MGNT_IP
-rabbit_password = $RABBIT_PASS
-
-auth_strategy = keystone
-
 [matchmaker_redis]
 [matchmaker_ring]
 [quotas]
@@ -63,17 +58,28 @@ auth_strategy = keystone
 root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
 
 [keystone_authtoken]
-auth_uri = http://$CON_MGNT_IP:5000/v2.0
-identity_uri = http://$CON_MGNT_IP:35357
-admin_tenant_name = service
-admin_user = neutron
-admin_password = $NEUTRON_PASS
+auth_uri = http://$CON_MGNT_IP:5000
+auth_url = http://$CON_MGNT_IP:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = neutron
+password = $NEUTRON_PASS
 
 [database]
-# connection = sqlite:////var/lib/neutron/neutron.sqlite
-[service_providers]
-service_provider=LOADBALANCER:Haproxy:neutron.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
-service_provider=VPN:openswan:neutron.services.vpn.service_drivers.ipsec.IPsecVPNDriver:default
+
+[nova]
+[oslo_concurrency]
+lock_path = \$state_path/lock
+[oslo_policy]
+[oslo_messaging_amqp]
+[oslo_messaging_qpid]
+
+[oslo_messaging_rabbit]
+rabbit_host = $CON_MGNT_IP
+rabbit_userid = openstack
+rabbit_password = $RABBIT_PASS
 EOF
 #
 echo "############ Configuring L3 AGENT ############"
@@ -88,8 +94,8 @@ cat << EOF >> $netl3agent
 [DEFAULT]
 verbose = True
 interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
-use_namespaces = True
-external_network_bridge = br-ex
+external_network_bridge =
+router_delete_namespaces = True
 EOF
 #
 echo "############  Configuring DHCP AGENT ############ "
@@ -103,11 +109,12 @@ touch $netdhcp
 
 cat << EOF >> $netdhcp
 [DEFAULT]
-interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
-dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
-use_namespaces = True
 verbose = True
 dnsmasq_config_file = /etc/neutron/dnsmasq-neutron.conf
+
+interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
+dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
+dhcp_delete_namespaces = True
 EOF
 #
 
@@ -129,11 +136,15 @@ cat << EOF >> $netmetadata
 [DEFAULT]
 verbose = True
 
-auth_url = http://$CON_MGNT_IP:5000/v2.0
-auth_region = regionOne
-admin_tenant_name = service
-admin_user = neutron
-admin_password = $NEUTRON_PASS
+auth_uri = http://$CON_MGNT_IP:5000
+auth_url = http://$CON_MGNT_IP:35357
+auth_region = RegionOne
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = neutron
+password = $NEUTRON_PASS
 
 nova_metadata_ip = $CON_MGNT_IP
 
