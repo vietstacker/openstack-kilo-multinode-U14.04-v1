@@ -20,9 +20,10 @@ EOF
 # Update repos
 #apt-get install ubuntu-cloud-keyring -y
 #sudo add-apt-repository cloud-archive:kilo
+sudo apt-get -y install ubuntu-cloud-keyring
 echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/kilo main" \
     | sudo tee /etc/apt/sources.list.d/cloud-archive.list
-sudo apt-get -y install ubuntu-cloud-keyring
+
 
 
 

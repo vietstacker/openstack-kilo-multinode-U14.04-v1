@@ -5,8 +5,8 @@ apt-get install lvm2 -y
 
 echo "########## Create Physical Volume and Volume Group (in sdb disk ) ##########"
 fdisk -l
-pvcreate /dev/sdb
-vgcreate cinder-volumes /dev/sdb
+pvcreate /dev/vdb
+vgcreate cinder-volumes /dev/vdb
 
 #
 echo "########## Install CINDER ##########"
