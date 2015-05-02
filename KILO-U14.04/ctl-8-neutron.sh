@@ -71,7 +71,7 @@ username = nova
 password = $NOVA_PASS
 
 [oslo_concurrency]
-lock_path = $state_path/lock
+lock_path = \$state_path/lock
 [oslo_policy]
 [oslo_messaging_amqp]
 [oslo_messaging_qpid]
@@ -79,7 +79,7 @@ lock_path = $state_path/lock
 [oslo_messaging_rabbit]
 rabbit_host = $CON_MGNT_IP
 rabbit_userid = openstack
-rabbit_password = RABBIT_PASS
+rabbit_password = $RABBIT_PASS
 
 EOF
 

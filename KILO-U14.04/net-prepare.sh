@@ -138,7 +138,7 @@ verbose = True
 
 auth_uri = http://$CON_MGNT_IP:5000
 auth_url = http://$CON_MGNT_IP:35357
-auth_region = RegionOne
+auth_region = regionOne
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default

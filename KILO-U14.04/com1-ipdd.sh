@@ -4,8 +4,8 @@ source config.cfg
 
 #Update for Ubuntu
 apt-get -y install ubuntu-cloud-keyring
-echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
-"trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list
+echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/kilo main" \
+    | sudo tee /etc/apt/sources.list.d/cloud-archive.list
 
 apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y
 
