@@ -21,7 +21,8 @@ test -f $filecinder.orig || cp $filecinder $filecinder.orig
 rm $filecinder
 cat << EOF > $filecinder
 [DEFAULT]
-verbose = True
+rpc_backend = rabbit
+my_ip = $CON_MGNT_IP
 
 rootwrap_config = /etc/cinder/rootwrap.conf
 api_paste_confg = /etc/cinder/api-paste.ini
@@ -34,23 +35,28 @@ state_path = /var/lib/cinder
 lock_path = /var/lock/cinder
 volumes_dir = /var/lib/cinder/volumes
 
-auth_strategy = keystone
-
-rpc_backend = rabbit
-rabbit_host = $CON_MGNT_IP
-rabbit_password = $RABBIT_PASS
-
-my_ip = $CON_MGNT_IP
-
-[keystone_authtoken]
-auth_uri = http://$CON_MGNT_IP:5000/v2.0
-identity_uri = http://$CON_MGNT_IP:35357
-admin_tenant_name = service
-admin_user = cinder
-admin_password = $CINDER_PASS
 
 [database]
 connection = mysql://cinder:$CINDER_DBPASS@$CON_MGNT_IP/cinder
+
+[oslo_messaging_rabbit]
+rabbit_host = $CON_MGNT_IP
+rabbit_userid = openstack
+rabbit_password = $RABBIT_PASS
+
+ 
+[keystone_authtoken]
+auth_uri = http://$CON_MGNT_IP:5000
+auth_url = http://$CON_MGNT_IP:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = cinder
+password = $CINDER_PASS
+
+[oslo_concurrency]
+lock_path = /var/lock/cinder
 
 EOF
 
