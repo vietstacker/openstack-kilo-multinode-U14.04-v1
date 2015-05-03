@@ -28,21 +28,21 @@ echo "net.ipv4.conf.all.rp_filter=0" >> /etc/sysctl.conf
 echo "net.ipv4.conf.default.rp_filter=0" >> /etc/sysctl.conf
 sysctl -p
 #
-dpkg-statoverride --update --add root root 0644 /boot/vmlinuz-$(uname -r)
+# dpkg-statoverride --update --add root root 0644 /boot/vmlinuz-$(uname -r)
 
 #
-touch /etc/kernel/postinst.d/statoverride
+# touch /etc/kernel/postinst.d/statoverride
 
 #
-cat << EOF >> /etc/kernel/postinst.d/statoverride
-"#!/bin/sh"
-echoversion="$1"
-# passing the kernel version is required
-[ -z "${version}" ] && exit 0
-dpkg-statoverride --update --add root root 0644 /boot/vmlinuz-${version}
-EOF
+# cat << EOF >> /etc/kernel/postinst.d/statoverride
+# "#!/bin/sh"
+# echoversion="$1"
+# # passing the kernel version is required
+# [ -z "${version}" ] && exit 0
+# dpkg-statoverride --update --add root root 0644 /boot/vmlinuz-${version}
+# EOF
 
-chmod +x /etc/kernel/postinst.d/statoverride
+# chmod +x /etc/kernel/postinst.d/statoverride
 ########
 echo "############ Configuring in nova.conf ...############"
 sleep 5
@@ -58,7 +58,7 @@ rpc_backend = rabbit
 auth_strategy = keystone
 
 
-my_ip = my_ip = $COM1_MGNT_IP
+my_ip = $COM1_MGNT_IP
 vnc_enabled = True
 vncserver_listen = 0.0.0.0
 vncserver_proxyclient_address = $COM1_MGNT_IP
@@ -85,10 +85,10 @@ dhcpbridge_flagfile=/etc/nova/nova.conf
 dhcpbridge=/usr/bin/nova-dhcpbridge
 logdir=/var/log/nova
 state_path=/var/lib/nova
-lock_path=/var/lock/nova
+# lock_path=/var/lock/nova
 force_dhcp_release=True
 libvirt_use_virtio_for_bridges=True
-verbose=True
+# verbose=True
 ec2_private_dns_show_ip=True
 api_paste_config=/etc/nova/api-paste.ini
 enabled_apis=ec2,osapi_compute,metadata
