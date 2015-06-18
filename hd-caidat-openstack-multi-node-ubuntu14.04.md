@@ -1,4 +1,4 @@
-Hướng dẫn chạy script cài đặt OpenStack Juno trên nhiều máy chủ
+Hướng dẫn chạy script cài đặt OpenStack KILO trên nhiều máy chủ
 ===
 # Mục lục
 
