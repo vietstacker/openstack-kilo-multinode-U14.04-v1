@@ -485,15 +485,15 @@ neutron router-gateway-set demo-router ext-net
 #### F.3: Tạo máy ảo
 ###### Tạo máy ảo
 - Chọn tab tạo máy ảo
-![Tab launch VM](/images/creat-vm1.png)
+![Tab launch VM](/images/create-vm1.png)
 
 ##### Khai báo tên, cấu hình, số lượng, hệ điều hành
 - Khai báo tên, flavor, số lượng máy ảo, OS của máy ảo
-![Tab launch VM](/images/creat-vm2.png)
+![Tab launch VM](/images/create-vm2.png)
 
 ##### Lựa chọn network và launch máy ảo
 
-![Tab launch VM](/images/creat-vm3.png)
+![Tab launch VM](/images/create-vm3.png)
 
 
 
