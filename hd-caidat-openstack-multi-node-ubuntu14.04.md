@@ -207,19 +207,18 @@ keystone user-list
 Kết quả của lệnh keystone user-list như sau 
 
 ```sh
-    +----------------------------------+---------+---------+-----------------------+
-    |                id                |   name  | enabled |         email         |
-    +----------------------------------+---------+---------+-----------------------+
-    | eda2f227988a45fcbc9ffb0abd405c6c |  admin  |   True  |  congtt@teststack.com |
-    | 07f996af33f14415adaf8d6aa6b8be83 |  cinder |   True  |  cinder@teststack.com |
-    | 6a198132f715468e860fa25d8163888e |   demo  |   True  |  congtt@teststack.com |
-    | 4fa14e44dafb48f09b2febaa2a665311 |  glance |   True  |  glance@teststack.com |
-    | 5f345c4a266d4c7691831924e1eec1f5 | neutron |   True  | neutron@teststack.com |
-    | d4b7c90da1c148be8741168c916cf149 |   nova  |   True  |   nova@teststack.com  |
-    | ddcb21870b4847b4b72853cfe7badd07 |  swift  |   True  |  swift@teststack.com  |
-    +----------------------------------+---------+---------+-----------------------+
++----------------------------------+---------+---------+-----------------------+
+|                id                |   name  | enabled |         email         |
++----------------------------------+---------+---------+-----------------------+
+| 96caaef69654429da128f2f5411b2551 |  admin  |   True  |  congtt@vietstack.vn |
+| adbe0711c4d540a1a2c817d0eec31568 |  cinder |   True  |  cinder@vietstack.vn |
+| 902d4729de1345a3946f21e22bc0cdc5 |   demo  |   True  |  congtt@vietstack.vn |
+| 61b56f4bc0ea418e88bdd1e08dad547f |  glance |   True  |  glance@vietstack.vn |
+| c59afb418269424992b9d2c517daad36 | neutron |   True  | neutron@vietstack.vn |
+| 682d9357b27341feb4bd04e75d55490c |   nova  |   True  |   nova@vietstack.vn  |
+| 619d4c53ab214c8583b8663eccac217e |  swift  |   True  |  swift@vietstack.vn  |
++----------------------------------+---------+---------+-----------------------+
 ```
-
 Chuyển qua cài các dịch vụ tiếp theo
     
 #### C.6. Cài đặt thành phần GLANCE
@@ -443,10 +442,46 @@ Và đăng nhập vào HORIZON ở bước F.1 và sử dụng OpenStack
  CHÚC VUI !
 -->
 
+#### F.2: Hướng dẫn tạo máy ảo
+##### Tạo external network
 
+```sh
+neutron net-create ext-net --router:external \
+--provider:physical_network external --provider:network_type flat
+```
 
+##### Tạo subnet cho external network
+```
+neutron subnet-create ext-net 192.168.1.0/24 --name ext-subnet \
+  --allocation-pool start=192.168.1.101,end=192.168.1.200 \
+  --disable-dhcp --gateway 192.168.1.1
+```
 
+##### Tạo network cho từng tenant
+```
+neutron net-create demo-net
+```
+##### Tạo subnet cho tenant network
+```
+neutron subnet-create demo-net 192.168.1.0/24--name demo-subnet --gateway 192.168.1.1 --dns-nameserver 8.8.8.8
+```
 
+##### Tạo router cho tenant
+```
+neutron router-create demo-router
+```
+
+##### Gán router cho subnet của tenant
+```
+neutron router-interface-add demo-router demo-subnet
+```
+
+##### Thiết lập gateway cho router
+```
+neutron router-gateway-set demo-router ext-net
+```
+
+#### F.3: Tạo máy ảo
 
 
 
