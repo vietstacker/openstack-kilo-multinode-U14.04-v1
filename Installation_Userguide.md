@@ -437,6 +437,60 @@ Restart nodes in order:
 
 
 
+#### F.2: Create initial networks
+
+##### Create the external network
+
+```sh
+neutron net-create ext-net --router:external \
+--provider:physical_network external --provider:network_type flat
+```
+
+##### To create a subnet on the external network
+```
+neutron subnet-create ext-net 192.168.1.0/24 --name ext-subnet \
+  --allocation-pool start=192.168.1.101,end=192.168.1.200 \
+  --disable-dhcp --gateway 192.168.1.1
+```
+
+##### To create the tenant network
+```
+neutron net-create demo-net
+```
+##### To create a subnet on the tenant network
+```
+neutron subnet-create demo-net 192.168.1.0/24--name demo-subnet --gateway 192.168.1.1 --dns-nameserver 8.8.8.8
+```
+
+##### Create the router
+```
+neutron router-create demo-router
+```
+
+##### Attach the router to the demo tenant subnet
+```
+neutron router-interface-add demo-router demo-subnet
+```
+
+##### Attach the router to the external network by setting it as the gateway
+```
+neutron router-gateway-set demo-router ext-net
+```
+
+#### F.3: Create VM (instance)
+###### Create VM (instance)
+- Chọn tab Project ==> Compute ==> Instances ==> Launch Instance
+![Tab launch VM](/images/create-vm1.png)
+
+##### Name, flavor, number, image 
+- Name, flavor, number, image 
+![Tab launch VM](/images/create-vm2.png)
+
+##### Select network and launch vm
+
+![Tab launch VM](/images/create-vm3.png)
+
+
 
 
 
