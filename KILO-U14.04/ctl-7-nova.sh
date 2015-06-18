@@ -32,7 +32,7 @@ firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 dhcpbridge_flagfile=/etc/nova/nova.conf
 dhcpbridge=/usr/bin/nova-dhcpbridge
-logdir=/var/log/nova
+log_dir=/var/log/nova
 state_path=/var/lib/nova
 lock_path=/var/lock/nova
 force_dhcp_release=True
