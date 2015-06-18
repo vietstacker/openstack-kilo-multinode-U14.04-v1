@@ -86,13 +86,13 @@ apt-get update
 
 apt-get install git -y
 	
-git clone https://github.com/vietstacker/openstack-juno-multinode-U14.04-v1.git
+git clone https://github.com/vietstacker/openstack-kilo-multinode-U14.04-v1
 	
-mv /root/openstack-juno-multinode-U14.04-v1/juno-ubuntu14.04/ juno-ubuntu14.04
+mv /root/openstack-kilo-multinode-U14.04-v1/KILO-U14.04/ KILO-U14.04
 
-rm -rf openstack-juno-multinode-U14.04-v1
+rm -rf openstack-kilo-multinode-U14.04-v1
 
-cd juno-ubuntu14.04/
+cd KILO-U14.04/
 
 chmod +x *.sh
 ```
@@ -135,7 +135,7 @@ Execution in each node
 ### C. Execution on the CONTROLLER NODE
 #### C.1. Scripts execution
 ```sh
-bash control-1.ipadd.sh
+bash ctl-1-ipadd.sh
 ```	
 After executing scripts, the Controller will restart and has the following parameters:
 
@@ -171,24 +171,24 @@ After executing scripts, the Controller will restart and has the following param
 #### C.2. MYSQL, NTP installations on the Controller Node
 Access to the controller node with the address of <b>CON_EXT_IP</b> declared in the file <b><i>config.cfg</i></b> 192.168.1.71 under the "root" user.
 ```sh
-cd juno-ubuntu14.04
-bash control-2.prepare.sh
+cd KILO-U14.04
+bash ctl-2-prepare.sh
 ```
     
 #### C.3. Creating Database 
 ```sh
-bash control-3.create-db.sh
+bash ctl-3-create-db.sh
 ```	
 #### C.4 Configuring and installing keystone
 ```sh
-bash control-4.keystone.sh
+bash ctl-4.keystone.sh
 ```
 #### C.5. Creating user, role, tenant, endpoint and  privilege for user
 
 <br>Creates endpoints to the services. The parameters in shell are get from config.cfg
 
 ```sh
-bash control-5-creatusetenant.sh
+bash ctl-5-creatusetenant.sh
 ```
 Executing the openrc file
 
@@ -223,23 +223,23 @@ Installation of other services
 #### C.6. GLANCE installation
 
 ```sh
-bash control-6.glance.sh
+bash ctl-6-glance.sh
 ```
 	
     
 #### C.7 NOVA installation
 ```sh
-bash control-7.nova.sh
+bash ctl-7-nova.sh
 ```
 
 #### C.8 NEUTRON installation
 ```sh
-bash control-8.neutron.sh
+bash ctl-8-neutron.sh
 ```
 
 #### C.9 CINDER installation
 ```sh
-bash control-9.cinder.sh
+bash ctl-9-cinder.sh
 ```
 
 
@@ -254,13 +254,13 @@ apt-get update
 
 apt-get install git -y
 	
-git clone https://github.com/vietstacker/openstack-juno-multinode-U14.04-v1.git
+git clone https://github.com/vietstacker/openstack-kilo-multinode-U14.04-v1
 	
-mv /root/openstack-juno-multinode-U14.04-v1/juno-ubuntu14.04/ juno-ubuntu14.04
+mv /root/openstack-kilo-multinode-U14.04-v1/KILO-U14.04/ KILO-U14.04
 
-rm -rf openstack-juno-multinode-U14.04-v1
+rm -rf openstack-kilo-multinode-U14.04-v1
 
-cd juno-ubuntu14.04/
+cd KILO-U14.04/
 
 chmod +x *.sh
 ```
@@ -316,7 +316,7 @@ Note: Shell will move eth1 to the promisc mode and assign IP for br-ex created a
 - Using putty to ssh to the NETWORK NODE through IP 192.168.1.172 with "root" user
 
 ```sh
-cd juno-ubuntu14.04
+cd KILO-U14.04/
 bash net-prepare.sh
 ```
 End of installing on the NETWORK NODE and move to COMPUTE NODE
@@ -329,19 +329,20 @@ apt-get update
 
 apt-get install git -y
 	
-git clone https://github.com/vietstacker/openstack-juno-multinode-U14.04-v1.git
+git clone https://github.com/vietstacker/openstack-kilo-multinode-U14.04-v1
 	
-mv /root/openstack-juno-multinode-U14.04-v1/juno-ubuntu14.04/ juno-ubuntu14.04
+mv /root/openstack-kilo-multinode-U14.04-v1/KILO-U14.04/ KILO-U14.04
 
-rm -rf openstack-juno-multinode-U14.04-v1
+rm -rf openstack-kilo-multinode-U14.04-v1
 
-cd juno-ubuntu14.04/
+cd KILO-U14.04/
 
 chmod +x *.sh
 ```
 #### E.1. Assigning hostname, IP and support packages
-
-    bash com1-ipdd.sh
+```
+bash com1-ipdd.sh
+```
 
 NICs of COMPUTE NODE will be following:
 
@@ -388,7 +389,7 @@ COMPUTE node will restart, access again to execute the following scripts
 #### E.2. Installing NOVA packages for COMPUTE NODE
 Access to the compute node
 ```sh
-cd juno-ubuntu14.04
+cd KILO-U14.04
 bash com1-prepare.sh
 ```
 
@@ -405,12 +406,12 @@ End of COMPUTE NODE installing, move back to the CONTROLLER NODE.
 Access to the controller node
 
 ```sh
-    cd /root/juno-ubuntu14.04
-	
-    bash control-horizon.sh
+cd /root/KILO-U14.04
+bash ctl-horizon.sh
 ```
 
-    
+<!---
+
 #### F.2. Creating PUBLIC NET, PRIVATE NET, ROUTER
 Create policies to allow external machines to access to the instances via IP PUBLIC.
 Execute the following scripts to create networks for Openstack
@@ -418,7 +419,7 @@ Create router, assign subnet to router, gateway to router
 Initiate a virtual machine with cirros image to test
 
 ```sh
-    bash creat-network.sh
+ bash creat-network.sh
 ``` 
 
 #### Restarting nodes
@@ -431,7 +432,7 @@ Restart nodes in order:
 ### The end
  Have fun!
 
-
+-->
 
 
 

@@ -87,13 +87,13 @@ apt-get update
 
 apt-get install git -y
 	
-git clone https://github.com/vietstacker/openstack-juno-multinode-U14.04-v1.git
+git clone https://github.com/vietstacker/openstack-kilo-multinode-U14.04-v1
 	
-mv /root/openstack-juno-multinode-U14.04-v1/juno-ubuntu14.04/ juno-ubuntu14.04
+mv /root/openstack-kilo-multinode-U14.04-v1/KILO-U14.04/ KILO-U14.04
 
-rm -rf openstack-juno-multinode-U14.04-v1
+rm -rf openstack-kilo-multinode-U14.04-v1
 
-cd juno-ubuntu14.04/
+cd KILO-U14.04/
 
 chmod +x *.sh
 ```
@@ -134,7 +134,7 @@ Sau khi thay đổi xong chuyển qua thực thi các file dưới trên từng 
 ### C. Thực hiện trên CONTROLLER NODE
 #### C.1. Thực thi script thiết lập IP, hostname ...
 ```sh
-bash control-1.ipadd.sh
+bash ctl-1-ipadd.sh
 ```	
 Sau khi thực hiện script trên, máy Controller sẽ khởi động lại và có thông số như sau:
 
@@ -171,25 +171,25 @@ Sau khi thực hiện script trên, máy Controller sẽ khởi động lại v�
 Đăng nhập vào Controller bằng địa chỉ <b>CON_EXT_IP</b> khai báo trong file <b><i>config.cfg</i></b> là 192.168.1.71 bằng tài khoản root.
 Sau đó di chuyển vào thư mục juno-ubuntu14.04 bằng lệnh cd và thực thi bằng lệnh bash
 ```sh
-cd juno-ubuntu14.04
-bash control-2.prepare.sh
+cd KILO-U14.04
+bash ctl-2-prepare.sh
 ```
     
 #### C.3. Tạo Database cho các thành phần 
 Thực thi shell dưới để tạo các database, user của database cho các thành phần
 ```sh
-bash control-3.create-db.sh
+bash ctl-3-create-db.sh
 ```	
 #### C.4 Cài đặt và cấu hình keystone
 ```sh
-bash control-4.keystone.sh
+bash ctl-4.keystone.sh
 ```
 #### C.5. Tạo user, role, tenant, phân quyền cho user và tạo các endpoint
 Shell dưới thực hiện việc tạo user, tenant và gán quyền cho các user. 
 <br>Tạo ra các endpoint cho các dịch vụ. Các biến trong shell được lấy từ file config.cfg
 
 ```sh
-bash control-5-creatusetenant.sh
+bash ctl-5-creatusetenant.sh
 ```
 
 Thực thi file admin-openrc.sh để khai báo biến môi trường.
@@ -226,24 +226,24 @@ Chuyển qua cài các dịch vụ tiếp theo
 GLANCE dùng để cung cấp image template để khởi tạo máy ảo
 
 ```sh
-bash control-6.glance.sh
+bash ctl-6-glance.sh
 ```
 	
 - Shell thực hiện việc cài đặt GLANCE và tạo image với hệ điều hành Cirros (Bản Ubuntu thu gọn) dùng để kiểm tra GLANCE và tạo máy ảo sau này.
     
 #### C.7 Cài đặt NOVA
 ```sh
-bash control-7.nova.sh
+bash ctl-7-nova.sh
 ```
 
 #### C.8 Cài đặt NEUTRON
 ```sh
-bash control-8.neutron.sh
+bash ctl-8-neutron.sh
 ```
 
 #### C.9 Cài đặt CINDER
 ```sh
-bash control-9.cinder.sh
+bash ctl-9-cinder.sh
 ```
 
 Tạm dừng việc cài đặt trên CONTROLLER NODE, sau khi cài xong NETWORK NODE và COMPUTE1 NODE sẽ quay lại để cài HORIZON và tạo các network, router.
@@ -259,13 +259,13 @@ apt-get update
 
 apt-get install git -y
 	
-git clone https://github.com/vietstacker/openstack-juno-multinode-U14.04-v1.git
+git clone https://github.com/vietstacker/openstack-kilo-multinode-U14.04-v1
 	
-mv /root/openstack-juno-multinode-U14.04-v1/juno-ubuntu14.04/ juno-ubuntu14.04
+mv /root/openstack-kilo-multinode-U14.04-v1/KILO-U14.04/ KILO-U14.04
 
-rm -rf openstack-juno-multinode-U14.04-v1
+rm -rf openstack-kilo-multinode-U14.04-v1
 
-cd juno-ubuntu14.04/
+cd KILO-U14.04/
 
 chmod +x *.sh
 ```
@@ -321,7 +321,7 @@ Chú ý: Shell sẽ chuyển eth1 sang chế độ promisc và đặt IP cho br-
 - Dùng putty ssh vào NETWORK NODE bằng IP 192.168.1.172 với tài khoản root
 - Di chuyển vào thư mục juno-ubuntu14.04 và thực thi shell dưới
 ```sh
-cd juno-ubuntu14.04
+cd KILO-U14.04/
 bash net-prepare.sh
 ```
 Kết thúc cài đặt trên NETWORK NODE và chuyển sang cài đặt COMPUTE NODE
@@ -337,20 +337,20 @@ apt-get update
 
 apt-get install git -y
 	
-git clone https://github.com/vietstacker/openstack-juno-multinode-U14.04-v1.git
+git clone https://github.com/vietstacker/openstack-kilo-multinode-U14.04-v1
 	
-mv /root/openstack-juno-multinode-U14.04-v1/juno-ubuntu14.04/ juno-ubuntu14.04
+mv /root/openstack-kilo-multinode-U14.04-v1/KILO-U14.04/ KILO-U14.04
 
-rm -rf openstack-juno-multinode-U14.04-v1
+rm -rf openstack-kilo-multinode-U14.04-v1
 
-cd juno-ubuntu14.04/
+cd KILO-U14.04/
 
 chmod +x *.sh
 ```
 #### E.1. Đặt hostname, IP và các gói bổ trợ
-
-    bash com1-ipdd.sh
-
+```
+bash com1-ipdd.sh
+```
 Sau khi thực hiện xong shell trên các NICs của COMPUTE NODE sẽ như sau: (giống với khai báo trong file <b><i>config.cfg</i></b>)
 
 <table>
@@ -397,7 +397,7 @@ COMPUTE node sẽ khởi động lại, cần phải đăng nhập bằng tải 
 Đăng nhập bằng tài khoản root và thực thi các lệnh dưới để tiến hành cài đặt nova
 
 ```sh
-cd juno-ubuntu14.04
+cd KILO-U14.04
 bash com1-prepare.sh
 ```
 
@@ -414,11 +414,11 @@ Kết thúc bước cài đặt trên COMPUTE NODE, chuyển về CONTROLLER NOD
 Đăng nhập bằng tài khoản root và đứng tại thư mục /root/juno-ubuntu14.04
 
 ```sh
-    cd /root/juno-ubuntu14.04
-	
-    bash control-horizon.sh
+cd /root/KILO-U14.04
+bash ctl-horizon.sh
 ```
 
+<!---
 Sau khi thực hiện xong việc cài đặt HORIZON, màn hình sẽ trả về IP ADD, User và Password để đăng nhập vào horizon    
     
 #### F.2. Tạo PUBLIC NET, PRIVATE NET, ROUTER
@@ -441,7 +441,7 @@ Và đăng nhập vào HORIZON ở bước F.1 và sử dụng OpenStack
 <a name="ketthuc"></a>
 ### KÊT THÚC
  CHÚC VUI !
-
+-->
 
 
 
