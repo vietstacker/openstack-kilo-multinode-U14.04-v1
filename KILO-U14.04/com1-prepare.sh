@@ -58,6 +58,11 @@ rpc_backend = rabbit
 auth_strategy = keystone
 
 
+#fix loi instances fails to allocate the network
+vif_plugging_is_fatal = False
+vif_plugging_timeout = 0
+
+
 my_ip = $COM1_MGNT_IP
 vnc_enabled = True
 vncserver_listen = 0.0.0.0
@@ -210,7 +215,7 @@ touch $comfileml2
 #Update ML2 config file /etc/neutron/plugins/ml2/ml2_conf.ini
 cat << EOF > $comfileml2
 [ml2]
-type_drivers = flat,gre
+type_drivers = flat,vlan,gre,vxlan
 tenant_network_types = gre
 mechanism_drivers = openvswitch
 
