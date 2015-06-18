@@ -1,4 +1,4 @@
-Openstack Juno installation guide on multinode
+Openstack KILO installation guide on multinode
 ===
 # Content
 [A. Lab information](#Labinformation)
