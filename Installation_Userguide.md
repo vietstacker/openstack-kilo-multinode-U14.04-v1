@@ -98,7 +98,7 @@ chmod +x *.sh
 ```
 #### B.2. Modifying configurations before executing the shells.
 Before modifying, no need to assign static IP to NICs on each host machine.
-Modify the file config.cfg lying in the repo juno-ubuntu14.04 with your own IPs or remain IPs and ensure that they are not used by other machines
+Modify the file config.cfg lying in the repo KILO-U14.04  with your own IPs or remain IPs and ensure that they are not used by other machines
 in your network.
 
 Here is initial file :

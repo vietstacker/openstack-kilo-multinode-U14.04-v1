@@ -99,7 +99,7 @@ chmod +x *.sh
 ```
 #### B.2. Sửa file khai báo các thông số trước khi thực thi shell
 Trước lúc chỉnh sửa, KHÔNG cần gán IP tĩnh cho các NICs trên từng máy chủ.
-Dùng vi để sửa file config.cfg nằm trong thư mục juno-ubuntu14.04 với các IP theo ý bạn hoặc giữ nguyên các IP và đảm bảo chúng chưa được gán cho máy nào trong mạng của bạn.
+Dùng vi để sửa file config.cfg nằm trong thư mục KILO-U14.04 với các IP theo ý bạn hoặc giữ nguyên các IP và đảm bảo chúng chưa được gán cho máy nào trong mạng của bạn.
 File gốc như sau: (tốt nhất đặt giống file gốc)
 ....
 	# Khai bao IP cho CONTROLLER NODE
@@ -169,7 +169,7 @@ Sau khi thực hiện script trên, máy Controller sẽ khởi động lại v�
 
 #### C.2. Cài đặt các gói MYSQL, NTP cho Controller Node
 Đăng nhập vào Controller bằng địa chỉ <b>CON_EXT_IP</b> khai báo trong file <b><i>config.cfg</i></b> là 192.168.1.71 bằng tài khoản root.
-Sau đó di chuyển vào thư mục juno-ubuntu14.04 bằng lệnh cd và thực thi bằng lệnh bash
+Sau đó di chuyển vào thư mục KILO-U14.04 bằng lệnh cd và thực thi bằng lệnh bash
 ```sh
 cd KILO-U14.04
 bash ctl-2-prepare.sh
@@ -318,7 +318,7 @@ Chú ý: Shell sẽ chuyển eth1 sang chế độ promisc và đặt IP cho br-
 
 #### D.2. Thực thi việc cài đặt NEUTRON và cấu hình
 - Dùng putty ssh vào NETWORK NODE bằng IP 192.168.1.172 với tài khoản root
-- Di chuyển vào thư mục juno-ubuntu14.04 và thực thi shell dưới
+- Di chuyển vào thư mục KILO-U14.04 và thực thi shell dưới
 ```sh
 cd KILO-U14.04/
 bash net-prepare.sh
@@ -410,7 +410,7 @@ Kết thúc bước cài đặt trên COMPUTE NODE, chuyển về CONTROLLER NOD
 ### F. CÀI HORIZON, tạo các network trên CONTROLLER NODE
 
 #### F.1. Cài đặt Horizon
-Đăng nhập bằng tài khoản root và đứng tại thư mục /root/juno-ubuntu14.04
+Đăng nhập bằng tài khoản root và đứng tại thư mục /root/KILO-U14.04
 
 ```sh
 cd /root/KILO-U14.04
