@@ -95,7 +95,7 @@ touch $controlML2
 
 cat << EOF >> $controlML2
 [ml2]
-type_drivers = flat,gre
+type_drivers = flat,vlan,gre,vxlan
 tenant_network_types = gre
 mechanism_drivers = openvswitch
 

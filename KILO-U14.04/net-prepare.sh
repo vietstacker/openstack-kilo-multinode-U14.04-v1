@@ -163,7 +163,7 @@ touch $netml2
 
 cat << EOF >> $netml2
 [ml2]
-type_drivers = flat,gre
+type_drivers = flat,vlan,gre,vxlan
 tenant_network_types = gre
 mechanism_drivers = openvswitch
 
@@ -171,9 +171,10 @@ mechanism_drivers = openvswitch
 flat_networks = external
 
 [ml2_type_vlan]
-tunnel_id_ranges = 1:1000
 
 [ml2_type_gre]
+tunnel_id_ranges = 1:1000
+
 [ml2_type_vxlan]
 [securitygroup]
 enable_security_group = True
