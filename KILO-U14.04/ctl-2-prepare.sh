@@ -28,7 +28,7 @@ echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/kilo m
 
 
 sleep 5
-echo "UPDATE PACKAGE FOR JUNO"
+echo "UPDATE PACKAGE FOR KILO"
 apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade
 
 echo "Install and config NTP"
@@ -39,7 +39,7 @@ rm /etc/ntp.conf
 cat /etc/ntp.conf.bka | grep -v ^# | grep -v ^$ >> /etc/ntp.conf
 
 
-## Config NTP in JUNO
+## Config NTP in KILO
 sed -i 's/server ntp.ubuntu.com/ \
 server 0.vn.pool.ntp.org iburst \
 server 1.asia.pool.ntp.org iburst \
