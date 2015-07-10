@@ -464,8 +464,8 @@ neutron net-create demo-net
 ```
 ##### Tạo subnet cho tenant network
 ```
-neutron subnet-create demo-net 192.168.1.0/24 \
---name demo-subnet --gateway 192.168.1.1 --dns-nameserver 8.8.8.8
+neutron subnet-create demo-net 192.168.10.0/24 \
+--name demo-subnet --gateway 192.168.1.10 --dns-nameserver 8.8.8.8
 ```
 
 ##### Tạo router cho tenant
