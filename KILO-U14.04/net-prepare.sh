@@ -11,7 +11,7 @@ touch $iphost
 cat << EOF >> $iphost
 127.0.0.1       localhost
 127.0.1.1		network
-$CON_MGNT_IP    $CON_MGNT_IP
+$CON_MGNT_IP    coontroller
 $COM1_MGNT_IP  	compute1
 $COM2_MGNT_IP  	compute2
 $NET_MGNT_IP   	network
